@@ -12,6 +12,7 @@
 		81CF0EB02817709A0080BA9D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81CF0EAF2817709A0080BA9D /* Assets.xcassets */; };
 		81CF0EB32817709A0080BA9D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 81CF0EB22817709A0080BA9D /* Preview Assets.xcassets */; };
 		81CF0EBA281774600080BA9D /* DoCatchTryThrowsBootCamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CF0EB9281774600080BA9D /* DoCatchTryThrowsBootCamp.swift */; };
+		81D17AA0281A1516005A4C0B /* DownloadImageAsync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81D17A9F281A1516005A4C0B /* DownloadImageAsync.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		81CF0EAF2817709A0080BA9D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		81CF0EB22817709A0080BA9D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		81CF0EB9281774600080BA9D /* DoCatchTryThrowsBootCamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoCatchTryThrowsBootCamp.swift; sourceTree = "<group>"; };
+		81D17A9F281A1516005A4C0B /* DownloadImageAsync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadImageAsync.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 				81CF0EAB281770980080BA9D /* SwiftUThiningConcurrencyApp.swift */,
 				81CF0EAD281770980080BA9D /* ContentView.swift */,
 				81CF0EB9281774600080BA9D /* DoCatchTryThrowsBootCamp.swift */,
+				81D17A9F281A1516005A4C0B /* DownloadImageAsync.swift */,
 				81CF0EAF2817709A0080BA9D /* Assets.xcassets */,
 				81CF0EB12817709A0080BA9D /* Preview Content */,
 			);
@@ -140,6 +143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81D17AA0281A1516005A4C0B /* DownloadImageAsync.swift in Sources */,
 				81CF0EBA281774600080BA9D /* DoCatchTryThrowsBootCamp.swift in Sources */,
 				81CF0EAE281770980080BA9D /* ContentView.swift in Sources */,
 				81CF0EAC281770980080BA9D /* SwiftUThiningConcurrencyApp.swift in Sources */,

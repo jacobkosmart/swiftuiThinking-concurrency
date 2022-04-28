@@ -236,23 +236,196 @@ do {
 
 Most of our asynchronous code in our asynchronous functions are going to actually be functions that throw errors so this syntax is going to be really common in async await and when you're using throws you're almost always using do catch statement
 
-```swift
+## 02.Download image with Async and Await
 
-```
+Compare with different asynchronous way such as @escaping, combine and Async & Await when it comes from downloading image
 
-<img height="350" alt="스크린샷" src="">
-
-```swift
-
-```
-
-<img height="350" alt="스크린샷" src="">
+- Case 1. Download image with @escaping
 
 ```swift
+import SwiftUI
 
+// MARK: -  SERVICE
+class DownloadImageAsyncImageLoader {
+let url = URL(string: "https://picsum.photos/200")!
+
+func handleResponse(data: Data?, response: URLResponse?) -> UIImage? {
+guard
+  let data = data,
+  let image = UIImage(data: data),
+  let response = response as? HTTPURLResponse,
+  response.statusCode >= 200 && response.statusCode < 300 else {
+    return nil
+  }
+return image
+}
+
+func downloadWithEscaping(completionHandler: @escaping (_ image: UIImage?, _ error: Error?) -> ()) {
+URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+  let image = self?.handleResponse(data: data, response: response)
+  completionHandler(image, error)
+}
+.resume()
+}
+}
+
+// MARK: -  VIEWMODEL
+class DownloadImageAsyncViewModel: ObservableObject {
+// MARK: -  PROPERTY
+@Published var image: UIImage? = nil
+let loader = DownloadImageAsyncImageLoader()
+// MARK: -  INIT
+// MARK: -  FUNCTION
+func fetchImage() {
+loader.downloadWithEscaping { [weak self] image, error in
+  DispatchQueue.main.async {
+    self?.image = image
+  }
+}
+}
+}
+
+// MARK: -  VIEW
+struct DownloadImageAsync: View {
+// MARK: -  PROPERTY
+@StateObject private var vm = DownloadImageAsyncViewModel()
+// MARK: -  BODY
+var body: some View {
+ZStack {
+  if let image = vm.image {
+    Image(uiImage: image)
+      .resizable()
+      .scaledToFit()
+      .frame(width: 250, height: 250)
+  }
+} //: ZSTACK
+.onAppear {
+  vm.fetchImage()
+}
+}
+}
 ```
 
-<img height="350" alt="스크린샷" src="">
+<img height="350" alt="스크린샷" src="https://user-images.githubusercontent.com/28912774/165654782-21df8047-6f96-46cb-973a-fecd7baaf234.png">
+
+- Case 2. Download image with Combine
+
+```swift
+import SwiftUI
+import Combine
+
+// MARK: -  SERVICE
+class DownloadImageAsyncImageLoader {
+let url = URL(string: "https://picsum.photos/200")!
+
+func handleResponse(data: Data?, response: URLResponse?) -> UIImage? {
+guard
+  let data = data,
+  let image = UIImage(data: data),
+  let response = response as? HTTPURLResponse,
+  response.statusCode >= 200 && response.statusCode < 300 else {
+    return nil
+  }
+return image
+}
+
+
+func downloadWithCombine() -> AnyPublisher<UIImage?, Error> {
+URLSession.shared.dataTaskPublisher(for: url)
+  .map(handleResponse)
+  .mapError({ $0 })
+  .eraseToAnyPublisher()
+}
+}
+
+// MARK: -  VIEWMODEL
+class DownloadImageAsyncViewModel: ObservableObject {
+// MARK: -  PROPERTY
+@Published var image: UIImage? = nil
+let loader = DownloadImageAsyncImageLoader()
+var cancellables = Set<AnyCancellable>()
+// MARK: -  INIT
+// MARK: -  FUNCTION
+func fetchImage() {
+  loader.downloadWithCombine()
+    .receive(on: DispatchQueue.main)
+    .sink { _ in
+
+    } receiveValue: { [weak self] image in
+        self?.image = image
+    }
+    .store(in: &cancellables)
+}
+}
+```
+
+- Case 3. Download image with Async and Await
+
+```swift
+// MARK: -  SERVICE
+class DownloadImageAsyncImageLoader {
+let url = URL(string: "https://picsum.photos/200")!
+
+func handleResponse(data: Data?, response: URLResponse?) -> UIImage? {
+guard
+  let data = data,
+  let image = UIImage(data: data),
+  let response = response as? HTTPURLResponse,
+  response.statusCode >= 200 && response.statusCode < 300 else {
+    return nil
+  }
+return image
+}
+func downloadWithAsync() async throws -> UIImage? {
+  do {
+    let (data, response) = try await URLSession.shared.data(from: url, delegate: nil)
+    return handleResponse(data: data, response: response)
+  } catch  {
+    throw error
+  }
+}
+}
+
+// MARK: -  VIEWMODEL
+class DownloadImageAsyncViewModel: ObservableObject {
+	// MARK: -  PROPERTY
+	@Published var image: UIImage? = nil
+	let loader = DownloadImageAsyncImageLoader()
+	var cancellables = Set<AnyCancellable>()
+	// MARK: -  INIT
+	// MARK: -  FUNCTION
+	func fetchImage() async {
+		let image = try? await loader.downloadWithAsync()
+		await MainActor.run {
+			self.image = image
+		}
+	}
+}
+
+// MARK: -  VIEW
+struct DownloadImageAsync: View {
+// MARK: -  PROPERTY
+@StateObject private var vm = DownloadImageAsyncViewModel()
+// MARK: -  BODY
+var body: some View {
+ZStack {
+if let image = vm.image {
+  Image(uiImage: image)
+    .resizable()
+    .scaledToFit()
+    .frame(width: 250, height: 250)
+}
+} //: ZSTACK
+.onAppear {
+Task {
+  await vm.fetchImage()
+}
+}
+}
+}
+```
+
+<img height="350" alt="스크린샷" src="https://user-images.githubusercontent.com/28912774/165670469-98b0dcb7-05c8-41a1-a21e-de96a07b2499.png">
 
 ```swift
 
