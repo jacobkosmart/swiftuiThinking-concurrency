@@ -236,7 +236,130 @@ do {
 
 Most of our asynchronous code in our asynchronous functions are going to actually be functions that throw errors so this syntax is going to be really common in async await and when you're using throws you're almost always using do catch statement
 
-## 02.Download image with Async and Await
+## 02 Async and Await
+
+For the example to do delay task compare with `DispatchQueue.main.asyncAfter` and `Async & Await`
+
+`DispatchQueue.main.asyncAfter`
+
+```swift
+// MARK: -  VIEWMODEL
+class AsyncAwaitBootcampViewModel: ObservableObject {
+	// MARK: -  PROPERTY
+	@Published var dataArray: [String] = []
+	// MARK: -  INIT
+	// MARK: -  FUNCTION
+	func addTilte1() {
+		// main thread
+		DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+			self.dataArray.append("Title1: \(Thread.current)")
+		}
+	}
+
+	func addTilte2() {
+		// global thread
+		DispatchQueue.global().asyncAfter(deadline: .now() + 2.0) {
+			let title = "Title2: \(Thread.current)"
+			DispatchQueue.main.async {
+				self.dataArray.append(title)
+
+				// main thread
+				let title3 = "Title3: \(Thread.current)"
+				self.dataArray.append(title3)
+			}
+		}
+	}
+
+// MARK: -  VIEW
+struct AsyncAwaitBootCamp: View {
+	@StateObject private var vm = AsyncAwaitBootcampViewModel()
+	// MARK: -  PROPERTY
+	// MARK: -  BODY
+	var body: some View {
+		List {
+			ForEach(vm.dataArray, id: \.self) {
+				Text($0)
+			}
+		} //: LIST
+		.onAppear {
+			vm.addTilte1()
+			vm.addTilte2()
+		}
+	}
+}
+
+```
+
+<img height="350" alt="스크린샷" src="https://user-images.githubusercontent.com/28912774/166626670-38907390-affa-457a-b3db-41c74db78c62.gif">
+
+`Async & Await`
+
+```swift
+import SwiftUI
+
+// MARK: -  VIEWMODEL
+class AsyncAwaitBootcampViewModel: ObservableObject {
+// MARK: -  PROPERTY
+@Published var dataArray: [String] = []
+// MARK: -  INIT
+// MARK: -  FUNCTION
+func addAuthor1() async {
+let author1 = "Autor1: \(Thread.current)"
+self.dataArray.append(author1)
+
+try? await Task.sleep(nanoseconds: 2_000_000_000) // delay 2 secs like DispachQueue.main.asyncAfter(dealine: .now() + 2.0)
+// try? await doSomething() // all processing tasks on main thread
+
+// author2 : global thread
+let author2 = "Autor2: \(Thread.current)"
+await MainActor.run(body: {
+  self.dataArray.append(author2)
+
+  // author3: main thread
+  let author3 = "Autor3: \(Thread.current)"
+  self.dataArray.append(author3)
+})
+}
+
+func addSomething() async {
+try? await Task.sleep(nanoseconds:  2_000_000_000)
+let something1 = "Something1: \(Thread.current)"
+await MainActor.run(body: {
+  self.dataArray.append(something1)
+
+  let something2 = "Something2: \(Thread.current)"
+  self.dataArray.append(something2)
+})
+}
+}
+
+// MARK: -  VIEW
+struct AsyncAwaitBootCamp: View {
+@StateObject private var vm = AsyncAwaitBootcampViewModel()
+// MARK: -  PROPERTY
+// MARK: -  BODY
+var body: some View {
+List {
+  ForEach(vm.dataArray, id: \.self) {
+    Text($0)
+  }
+} //: LIST
+.onAppear {
+  Task {
+    await vm.addAuthor1()
+    await vm.addSomething()
+
+    let finalText = "FINAL TEXT: \(Thread.current)"
+    vm.dataArray.append(finalText)
+  }
+}
+}
+}
+```
+
+<img height="350" alt="스크린샷" src="https://user-images.githubusercontent.com/28912774/166626813-3820ddd9-d27c-4de6-8d3b-b4ed467e4386.gif">
+
+### Download image with Async and Await
 
 Compare with different asynchronous way such as @escaping, combine and Async & Await when it comes from downloading image
 
@@ -426,22 +549,6 @@ Task {
 ```
 
 <img height="350" alt="스크린샷" src="https://user-images.githubusercontent.com/28912774/165670469-98b0dcb7-05c8-41a1-a21e-de96a07b2499.png">
-
-```swift
-
-```
-
-<img height="350" alt="스크린샷" src="">
-
-```swift
-
-```
-
-<img height="350" alt="스크린샷" src="">
-
-```swift
-
-```
 
 <img height="350" alt="스크린샷" src="">
 
