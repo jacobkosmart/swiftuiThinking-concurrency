@@ -34,7 +34,7 @@ struct AsyncLetBootCamp: View {
 						async let fetchImage1 = fetchImage()
 						async let fetchTitle1 = fetchTitle()
 						
-						let (image, title) = await (try fetchImage1, fetchTitle1)
+						// let (image, title) = await (try fetchImage1, fetchTitle1)
 						
 						// one await keyword
 						// let (image1, image2, image3, image4) = await (try fetchImage1, try fetchImage2, try fetchImage3, try fetchImage4)
