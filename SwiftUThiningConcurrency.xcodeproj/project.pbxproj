@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		814EED4928487804006A4937 /* GlobalActorBootCamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814EED4828487804006A4937 /* GlobalActorBootCamp.swift */; };
 		81CA7D612820F9F100440356 /* AsyncAwaitBootCamp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CA7D602820F9F100440356 /* AsyncAwaitBootCamp.swift */; };
 		81CF0EAC281770980080BA9D /* SwiftUThiningConcurrencyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CF0EAB281770980080BA9D /* SwiftUThiningConcurrencyApp.swift */; };
 		81CF0EAE281770980080BA9D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CF0EAD281770980080BA9D /* ContentView.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		814EED4828487804006A4937 /* GlobalActorBootCamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalActorBootCamp.swift; sourceTree = "<group>"; };
 		81CA7D602820F9F100440356 /* AsyncAwaitBootCamp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncAwaitBootCamp.swift; sourceTree = "<group>"; };
 		81CF0EA8281770980080BA9D /* SwiftUThiningConcurrency.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUThiningConcurrency.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81CF0EAB281770980080BA9D /* SwiftUThiningConcurrencyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUThiningConcurrencyApp.swift; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 				81E725C428370BB200C1B98B /* CheckedContinuationBootCamp.swift */,
 				81E725D22837799100C1B98B /* StructClassActorBootCamp.swift */,
 				81DD05B52845BE4A004C6D59 /* ActorBootCamp.swift */,
+				814EED4828487804006A4937 /* GlobalActorBootCamp.swift */,
 				81CF0EAF2817709A0080BA9D /* Assets.xcassets */,
 				81CF0EB12817709A0080BA9D /* Preview Content */,
 			);
@@ -175,6 +178,7 @@
 				81DD05B62845BE4A004C6D59 /* ActorBootCamp.swift in Sources */,
 				81E725D32837799100C1B98B /* StructClassActorBootCamp.swift in Sources */,
 				81EE3922282CC47800304DF0 /* TaskGroupBootCamp.swift in Sources */,
+				814EED4928487804006A4937 /* GlobalActorBootCamp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
